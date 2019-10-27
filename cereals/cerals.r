@@ -36,3 +36,15 @@ NN = neuralnet(rating ~ calories + protein + fat + sodium + fiber, trainNN, hidd
 
 # plot neural network
 plot(NN)
+
+## Prediction using neural network
+
+predict_testNN = compute(NN, testNN[,c(1:5)])
+predict_testNN = (predict_testNN$net.result * (max(data$rating) - min(data$rating))) + min(data$rating)
+
+plot(datatest$rating, predict_testNN, col='blue', pch=16, ylab = "predicted rating NN", xlab = "real rating")
+
+abline(0,1)
+
+# Calculate Root Mean Square Error (RMSE)
+RMSE.NN = (sum((datatest$rating - predict_testNN)^2) / nrow(datatest)) ^ 0.5
