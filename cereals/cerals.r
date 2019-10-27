@@ -11,3 +11,8 @@ index = sample( seq_len ( nrow ( data ) ), size = samplesize )
 # Create training and test set
 datatrain = data[ index, ]
 datatest = data[ -index, ]
+
+
+max = apply(data , 2 , max)
+min = apply(data, 2 , min)
+scaled = as.data.frame(scale(data, center = min, scale = max - min))
