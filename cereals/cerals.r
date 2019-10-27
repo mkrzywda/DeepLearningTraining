@@ -85,3 +85,16 @@ for(j in 10:65){
 
 Matrix.RMSE = do.call(cbind, List)
 
+boxplot(Matrix.RMSE[,56], ylab = "RMSE", main = "RMSE BoxPlot (length of traning set = 65)")
+
+
+
+## Variation of median RMSE
+install.packages("matrixStats")
+library(matrixStats)
+
+med = colMedians(Matrix.RMSE)
+
+X = seq(10,65)
+
+plot (med~X, type = "l", xlab = "length of training set", ylab = "median RMSE", main = "Variation of RMSE with length of training set")
