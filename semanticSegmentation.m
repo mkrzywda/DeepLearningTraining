@@ -73,5 +73,15 @@ ylabel('Frequency')
 %%
 [imdsTrain, imdsVal, imdsTest, pxdsTrain, pxdsVal, pxdsTest] = partitionCamVidData(imds,pxds);
 numTrainingImages = numel(imdsTrain.Files)
-numValImages = numel(imdsVal.Files
+numValImages = numel(imdsVal.Files)
 numTestingImages = numel(imdsTest.Files)
+
+%%% Specify the network image size. This is typically the same as the traing image sizes.
+imageSize = [720 960 3];
+
+% Specify the number of classes.
+numClasses = numel(classes);
+
+% Create DeepLab v3+.
+lgraph = deeplabv3plusLayers(imageSize, numClasses, "resnet18");
+
