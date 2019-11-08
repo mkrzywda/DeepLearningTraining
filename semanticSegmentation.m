@@ -31,7 +31,40 @@ imgDir = fullfile(outputFolder,'images','701_StillsRaw_full');
 imds = imageDatastore(imgDir);
 
 I = readimage(imds,1);
-I = histeq(I);
+I = histeq;(I);
 imshow(I)
 
+%%
+classes = [
+    "Sky"
+    "Building"
+    "Pole"
+    "Road"
+    "Pavement"
+    "Tree"
+    "SignSymbol"
+    "Fence"
+    "Car"
+    "Pedestrian"
+    "Bicyclist"
+    ];
 
+
+labelIDs = camvidPixelLabelIDs();
+labelDir = fullfile(outputFolder,'labels');
+pxds = pixelLabelDatastore(labelDir,classes,labelIDs);
+
+C = readimage(pxds,1);
+cmap = camvidColorMap;
+B = labeloverlay(I,C,'ColorMap',cmap);
+imshow(B)
+pixelLabelColorbar(cmap,classes);
+
+tbl = countEachLabel(pxds)
+frequency = tbl.PixelCount/sum(tbl.PixelCount);
+
+bar(1:numel(classes),frequency)
+xticks(1:numel(classes)) 
+xticklabels(tbl.Name)
+xtickangle(45)
+ylabel('Frequency')
