@@ -113,4 +113,14 @@ options = trainingOptions('sgdm', ...
     'Plots','training-progress',...
     'ValidationPatience', 4);
 
+pximds = pixelLabelImageDatastore(imdsTrain,pxdsTrain, ...
+    'DataAugmentation',augmenter);
+
+doTraining = false;
+if doTraining    
+    [net, info] = trainNetwork(pximds,lgraph,options);
+else
+    data = load(pretrainedNetwork); 
+    net = data.net;
+end
 
