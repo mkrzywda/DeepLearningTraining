@@ -68,3 +68,10 @@ xticks(1:numel(classes))
 xticklabels(tbl.Name)
 xtickangle(45)
 ylabel('Frequency')
+
+
+%%
+[imdsTrain, imdsVal, imdsTest, pxdsTrain, pxdsVal, pxdsTest] = partitionCamVidData(imds,pxds);
+numTrainingImages = numel(imdsTrain.Files)
+numValImages = numel(imdsVal.Files
+numTestingImages = numel(imdsTest.Files)
