@@ -85,3 +85,11 @@ numClasses = numel(classes);
 % Create DeepLab v3+.
 lgraph = deeplabv3plusLayers(imageSize, numClasses, "resnet18");
 
+imageFreq = tbl.PixelCount ./ tbl.ImagePixelCount;
+classWeights = median(imageFreq) ./ imageFreq
+
+pxLayer = pixelClassificationLayer('Name','labels','Classes',tbl.Name,'ClassWeights',classWeights);
+lgraph = replaceLayer(lgraph,"classification",pxLayer);
+
+
+
