@@ -124,3 +124,34 @@ else
     net = data.net;
 end
 
+
+I = readimage(imdsTest,35);
+C = semanticseg(I, net);
+
+B = labeloverlay(I,C,'Colormap',cmap,'Transparency',0.4);
+imshow(B)
+pixelLabelColorbar(cmap, classes);
+
+
+expectedResult = readimage(pxdsTest,35);
+actual = uint8(C);
+expected = uint8(expectedResult);
+imshowpair(actual, expected)
+
+iou = jaccard(C,expectedResult);
+table(classes,iou)
+
+
+pxdsResults = semanticseg(imdsTest,net, ...
+    'MiniBatchSize',4, ...
+    'WriteLocation',tempdir, ...
+    'Verbose',false);
+
+metrics = evaluateSemanticSegmentation(pxdsResults,pxdsTest,'Verbose',false);
+
+metrics.DataSetMetrics
+metrics.ClassMetrics
+
+
+
+
